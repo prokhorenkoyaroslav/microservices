@@ -35,9 +35,9 @@ public class ProductService {
 
         return products.stream().map(this::mapToProductResponse).collect(Collectors.toList());
 
-     }
+    }
 
-     private ProductResponse mapToProductResponse(Product product) {
+    private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse
                 .builder()
                 .id(product.getId())
@@ -45,5 +45,5 @@ public class ProductService {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .build();
-     }
+    }
 }

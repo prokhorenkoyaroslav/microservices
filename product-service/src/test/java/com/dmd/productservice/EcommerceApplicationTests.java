@@ -1,7 +1,6 @@
 package com.dmd.productservice;
 
 import com.dmd.productservice.dto.ProductRequest;
-import com.dmd.productservice.dto.ProductResponse;
 import com.dmd.productservice.service.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,13 +15,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.testcontainers.containers.MongoDBContainer;
-
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,26 +42,6 @@ class EcommerceApplicationTests {
     static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry) {
         dynamicPropertyRegistry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
     }
-
- /*   @Test
-    void shouldGetAllProducts() {
-        // Given
-        productService.createProduct(new ProductRequest("Product 1", "Product 1", new BigDecimal(10)));
-        productService.createProduct(new ProductRequest("Product 2", "Product 2", new BigDecimal(12)));
-        // When
-        List <ProductResponse> products = productService.getAllProducts();
-        // Then
-        System.out.println(products.size());
-        Assertions.assertEquals(products.size(), 3);
-        Assertions.assertEquals(products.get(0).getName(), "Product 1");
-        Assertions.assertEquals(products.get(0).getDescription(), "Product 1");
-        Assertions.assertEquals(products.get(0).getPrice(), new BigDecimal(10));
-
-        Assertions.assertEquals(products.get(1).getName(), "Product 2");
-        Assertions.assertEquals(products.get(1).getDescription(), "Product 2");
-        Assertions.assertEquals(products.get(1).getPrice(), new BigDecimal(12));
-
-    }*/
 
     @Test
     void shouldCreateProduct() throws Exception {

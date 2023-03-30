@@ -22,7 +22,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final WebClient webClient;
-
+    private final String INVENTORY_URL = "http://localhost:8082/api/v1/inventory";
 
     public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
@@ -40,7 +40,7 @@ public class OrderService {
                 .toList();
 
         InventoryResponse[] inventoryResponses = webClient.get()
-                .uri("http://localhost:8082/api/v1/inventory",
+                .uri(INVENTORY_URL,
                         uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
@@ -48,7 +48,7 @@ public class OrderService {
 
         boolean allProductsInStock = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::isInStock);
 
-        if(allProductsInStock) orderRepository.save(order);
+        if (allProductsInStock) orderRepository.save(order);
         else throw new IllegalArgumentException("Product is not in stock!");
 
         orderRepository.save(order);
