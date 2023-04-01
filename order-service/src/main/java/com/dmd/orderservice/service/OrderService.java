@@ -21,8 +21,8 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
-    private final String INVENTORY_URL = "http://localhost:8082/api/v1/inventory";
+    private final WebClient.Builder webClientBuilder;
+    private final String INVENTORY_URL = "http://inventory-service/api/v1/inventory";
 
     public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
@@ -39,7 +39,7 @@ public class OrderService {
                 .map(OrderLineItems::getSkuCode)
                 .toList();
 
-        InventoryResponse[] inventoryResponses = webClient.get()
+        InventoryResponse[] inventoryResponses = webClientBuilder.build().get()
                 .uri(INVENTORY_URL,
                         uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
                 .retrieve()
@@ -50,8 +50,6 @@ public class OrderService {
 
         if (allProductsInStock) orderRepository.save(order);
         else throw new IllegalArgumentException("Product is not in stock!");
-
-        orderRepository.save(order);
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
