@@ -9,3 +9,4 @@ Simple ecommerce application build on microservices architecture
 * Kafka
 * Resilience4j
 * KeyCloak
+* Netflix Eureka
