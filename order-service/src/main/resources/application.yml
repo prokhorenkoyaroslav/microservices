@@ -9,6 +9,20 @@ spring:
       ddl-auto: update
   application:
     name: order-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: notificationTopic
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: event:com.dmd.orderservice.event.OrderPlacedEvent
+
+
+
+
+
 server:
   port: 0
 eureka:
@@ -32,16 +46,15 @@ resilience4j:
   circuitbreaker:
     instances:
       inventory:
-          register-health-indicator: true
-          event-consumer-buffer-size: 10
-          sliding-window-type: COUNT_BASED
-          sliding-window-size: 5
-          failure-rate-threshold: 50
-          wait-duration-in-open-state: 5s
-          permitted-number-of-calls-in-half-open-state: 3
-          automatic-transition-from-open-to-half-open-enabled: true
-  timelimiter:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+  time limiter:
     instances:
       inventory:
-        timeout-duration:
-          seconds: 3
+        timeout-duration: 3s
